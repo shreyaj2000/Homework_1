@@ -1,22 +1,19 @@
-//Make a program that can find 
-//single word anagrams that use all the characters in a given string
+//Adapt that program to find anagrams that use only a subset of characters
 #include<iostream>
 #include<fstream>
 #include<algorithm>
 
 using namespace std;
 
-string dictionary;
+string dictionary,str,dictionary_sort,str_sort;
 
-bool is_anagram(string, string);
-void compare();
+void sort(string, string);
+void find_anagrams();
 
 int main() 
 {
 
 	//Reading file
-
-	string str;
 	
 	cout<<"\nEnter characters : ";
 	cin>>str;
@@ -33,11 +30,12 @@ int main()
 
 	//obtain word and length
 
+	cout<<"\nWords present in the anagram are :\n";
+
 	while(!file.eof()){
 		getline(file, dictionary);
-		if (is_anagram(dictionary,str)) {
-			cout<<dictionary<<"\t";
-		}
+		sort(dictionary, str);
+		find_anagrams();
 	}
 
 	cout<<"\n";
@@ -45,12 +43,33 @@ int main()
 	return 0;
 }
 
-//sort letters using ascii values
+//sort letters
 
-bool is_anagram(string s1, string s2)
+void sort(string dictionary, string str)
 {
-	sort(s1.begin(), s1.end());
-	sort(s2.begin(), s2.end());
-  	return s1 == s2;
+	dictionary_sort = dictionary;
+	str_sort = str;
+	sort(dictionary_sort.begin(), dictionary_sort.end());
+	sort(str_sort.begin(), str_sort.end());
+
+}
+
+void find_anagrams()
+{
+	int i,j, count;
+	j=count=0;
+
+	for(i = 0; i<str.length(); i++) {
+    	char c = str_sort[i];
+    	char w = dictionary_sort[j];
+    	if (c==w) {
+    		++count;
+    		++j;
+    	}
+	}
+
+	if (count==dictionary_sort.length())
+		cout<<dictionary<<"\t";
+
 }
 
