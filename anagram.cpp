@@ -96,6 +96,14 @@ void calculate_score() {
 			score+= points[i];
 			j++;
 		}
+		else if (c==alphabet[i-1]) {
+			score+= points[i-1]; //for words with two of the same letters
+			j++;
+		}
+		else if (c==alphabet[i-2]) {
+			score+= points[i-2]; //for words with three of the same letters
+			j++;
+		}
 	}
 	score = score*score;
 
