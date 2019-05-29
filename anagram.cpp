@@ -60,13 +60,13 @@ bool find_anagrams()
 	j=count=len=0;
 
 	for(i = 0; i<word.length(); i++) {
-    	char c = word_sort[i];
-    	char w = dictionary_word_sort[j];
-    	if (c==w) {
-    		++count;
-    		++j;
-    		++len;
-    	}
+		char c = word_sort[i];
+		char w = dictionary_word_sort[j];
+		if (c==w) {
+			++count;
+			++j;
+			++len;
+		}
 	}
 
 
