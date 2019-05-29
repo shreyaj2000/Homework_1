@@ -2,25 +2,27 @@
 #include<iostream>
 #include<fstream>
 #include<algorithm>
+#include <unordered_map>
 
 using namespace std;
 
-string dictionary_word,word,dictionary_word_sort,word_sort,max_word;
+string max_word;
 int max_score;
 
-void sort(string, string); //sorts the dictionary word and the string entered
-bool find_anagrams(); //checks if the dictionary word is present in the string enetered
-void calculate_highest_score(); //calculates which dictionary word has the highest score
+string sort_dictionary_word(string); //sorts the dictionary word and the string entered
+bool find_anagrams(string,string,string); //checks if the dictionary word is present in the string enetered
+void calculate_highest_score(string); //calculates which dictionary word has the highest score
 
 int main() 
 {
-
-	//Reading file
-	
+	string dictionary_word,word;
 	cout<<"\nEnter characters : ";
 	cin>>word;
-	int length_of_anagram = word.length();
 
+	//sorting word
+	sort(word.begin(), word.end());
+
+	//Reading file
 	ifstream file("dictionary.txt", ios::in);
 	
 	if(!file){
@@ -29,14 +31,13 @@ int main()
 	}
 
 	//Checking if each word is anagram. Also find highest scoring word
-
 	cout<<"\nAnagrams formed from string are :\n";
 
 	while(!file.eof()){
 		getline(file, dictionary_word);
-		sort(dictionary_word, word);
-		if (find_anagrams()) {
-			calculate_highest_score();
+		string sorted_dictionary_word = sort_dictionary_word(dictionary_word);
+		if (find_anagrams(dictionary_word,word,sorted_dictionary_word)) {
+			calculate_highest_score(dictionary_word);
 		}
 	}
 
@@ -45,32 +46,30 @@ int main()
 	return 0;
 }
 
-void sort(string dictionary_word, string word)
+string sort_dictionary_word(string dictionary_word)
 {
-	dictionary_word_sort = dictionary_word;
-	word_sort = word;
-	sort(dictionary_word_sort.begin(), dictionary_word_sort.end());
-	sort(word_sort.begin(), word_sort.end());
+	string sorted_dictionary_word = dictionary_word;
+	sort(sorted_dictionary_word.begin(), sorted_dictionary_word.end());
+	return sorted_dictionary_word;
 
 }
 
-bool find_anagrams()
+bool find_anagrams(string dictionary_word, string word, string sorted_dictionary_word)
 {
-	int i,j, count,len;
-	j=count=len=0;
+	int i,j, count;
+	j=count=0;
 
 	for(i = 0; i<word.length(); i++) {
-		char c = word_sort[i];
-		char w = dictionary_word_sort[j];
+		char c = word[i];
+		char w = sorted_dictionary_word[j];
 		if (c==w) {
 			++count;
 			++j;
-			++len;
 		}
 	}
 
 
-	if (count==dictionary_word_sort.length()) {
+	if (count==sorted_dictionary_word.length()) {
 		cout<<dictionary_word<<"\t";
 		return true;
 	}
@@ -78,30 +77,24 @@ bool find_anagrams()
 
 }
 
-void calculate_highest_score() {
+void calculate_highest_score(string dictionary_word) {
 
-	int score=0;
-	char alphabet[26] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
-	int points[26]={1,1,2,1,1,2,1,2,1,3,3,2,2,1,1,2,3,1,1,1,1,2,2,3,2,3};
-	int j=0;
+    char alphabet[26] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+    int points[26]={1,1,2,1,1,2,1,2,1,3,3,2,2,1,1,2,3,1,1,1,1,2,2,3,2,3};
+    int score = 0;
 
-	for (int i=0; i<26; i++) {
-		char c = dictionary_word_sort[j];
-		if (alphabet[i]==c) {
-			score+= points[i];
-			j++;
-			if (c=='q')
-				score -=1; //Since Qu is considered as 3 points together, we subtract 1 for the additional u detected
-		}
-		else if (c==alphabet[i-1]) {
-			score+= points[i-1]; //for words with two of the same letters
-			j++;
-		}
-		else if (c==alphabet[i-2]) {
-			score+= points[i-2]; //for words with three of the same letters
-			j++;
-		}
-	}
+    unordered_map<char, int> freq;
+    for (const char &c: dictionary_word) {
+        freq[c]++;
+    }
+
+    for (int i=0;i<26;i++) {
+        if (freq.find(alphabet[i])!=freq.end()) {
+            score = score + (freq[alphabet[i]]*points[i]);
+            if (alphabet[i]=='q')
+                score -=1; //Since Qu is 3 points, we subtract 1 for the additional u detected
+        }
+    }
 
 	score = score*score;
 
@@ -110,5 +103,4 @@ void calculate_highest_score() {
 		max_word = dictionary_word;
 	}
 }
-
 
