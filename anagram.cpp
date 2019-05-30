@@ -106,14 +106,13 @@ void calculate_highest_score(string dictionary_word,string sorted_dictionary_wor
     }
 
     for (int i=0;i<26;i++) {
-        if (freq.find(alphabet[i])!=freq.end()) {;
+        if (freq.find(alphabet[i])!=freq.end()) {
             score = score + (freq[alphabet[i]]*points[i]);
-		}
+        }
     }
 
-   	score += 1;
+	score += 1;
 	score = score*score;
-
 	if (max_score<score) {
 		max_score = score;
 		max_word = dictionary_word;
