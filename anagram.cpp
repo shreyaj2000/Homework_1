@@ -49,6 +49,7 @@ int main()
 string sort_dictionary_word(string dictionary_word)
 {
 	string sorted_dictionary_word = dictionary_word;
+	std::transform(sorted_dictionary_word.begin(), sorted_dictionary_word.end(), sorted_dictionary_word.begin(), ::tolower);
 	sort(sorted_dictionary_word.begin(), sorted_dictionary_word.end());
 	return sorted_dictionary_word;
 
@@ -92,11 +93,12 @@ void calculate_highest_score(string dictionary_word) {
         if (freq.find(alphabet[i])!=freq.end()) {
             score = score + (freq[alphabet[i]]*points[i]);
             if (alphabet[i]=='q')
-                score -=1; //Since Qu is 3 points, we subtract 1 for the additional u detected
+                score -=(1*freq[alphabet[i]]); //Since Qu is 3 points, we subtract 1 for the additional u detected
         }
     }
 
 	score = score*score;
+
 
 	if (max_score<score) {
 		max_score = score;
