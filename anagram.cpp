@@ -73,8 +73,8 @@ string remove_qu(string& edit_word) {
 	return edit_word;
 }
 
-bool find_anagrams(string dictionary_word, string word, string sorted_dictionary_word)
-{
+bool find_anagrams(string dictionary_word, string word, string sorted_dictionary_word) {
+
 	int i,j, count;
 	j=count=0;
 
@@ -95,7 +95,6 @@ bool find_anagrams(string dictionary_word, string word, string sorted_dictionary
 }
 
 void calculate_highest_score(string dictionary_word,string sorted_dictionary_word) {
-
     
     char alphabet[26] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
     int points[26]={1,1,2,1,1,2,1,2,1,3,3,2,2,1,1,2,3,1,1,1,1,2,2,3,2,3};
@@ -107,11 +106,9 @@ void calculate_highest_score(string dictionary_word,string sorted_dictionary_wor
     }
 
     for (int i=0;i<26;i++) {
-        if (freq.find(alphabet[i])!=freq.end()) {
+        if (freq.find(alphabet[i])!=freq.end()) {;
             score = score + (freq[alphabet[i]]*points[i]);
-            if (alphabet[i]=='q')
-                score -=(1*freq[alphabet[i]]); //Since Qu is 3 points, we subtract 1 for the additional u detected
-        }
+		}
     }
 
    	score += 1;
