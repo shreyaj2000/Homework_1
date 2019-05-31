@@ -45,7 +45,7 @@ int main()
 		}
 	}
 
-	cout<<"\nHighest scoring anagram is "<<max_word<<" with a score of "<<max_score<<"\n";
+	cout<<"\n\nHighest scoring anagram is "<<max_word<<" with a score of "<<max_score<<"\n";
 
 	return 0;
 }
@@ -67,6 +67,7 @@ string remove_qu(string& edit_word) {
 		if ((q_count_word!=0) && (c=='u')) {
 			edit_word.erase(i,1);
 			--q_count_word;
+			--i;
 		}
 	}
 
