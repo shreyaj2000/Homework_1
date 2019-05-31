@@ -12,7 +12,7 @@ int max_score;
 string sort_dictionary_word(string); //sorts the dictionary word and the string entered
 bool find_anagrams(string,string,string); //checks if the dictionary word is present in the string enetered
 void calculate_highest_score(string,string); //calculates which dictionary word has the highest score
-string remove_qu(string&);
+string remove_qu(string&); //remove the letter 'u' for every occurance of 'q'
 
 int main() 
 {
@@ -97,20 +97,20 @@ bool find_anagrams(string dictionary_word, string word, string sorted_dictionary
 
 void calculate_highest_score(string dictionary_word,string sorted_dictionary_word) {
     
-    char alphabet[26] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
-    int points[26]={1,1,2,1,1,2,1,2,1,3,3,2,2,1,1,2,3,1,1,1,1,2,2,3,2,3};
-    int score = 0;
+	char alphabet[26] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+	int points[26]={1,1,2,1,1,2,1,2,1,3,3,2,2,1,1,2,3,1,1,1,1,2,2,3,2,3};
+	int score = 0;
 
-    unordered_map<char, int> freq;
-    for (const char &c: sorted_dictionary_word) {
-        freq[c]++;
-    }
+	unordered_map<char, int> freq;
+	for (const char &c: sorted_dictionary_word) {
+	    freq[c]++;
+	}
 
-    for (int i=0;i<26;i++) {
-        if (freq.find(alphabet[i])!=freq.end()) {
-            score = score + (freq[alphabet[i]]*points[i]);
-        }
-    }
+	for (int i=0;i<26;i++) {
+	    if (freq.find(alphabet[i])!=freq.end()) {
+	        score = score + (freq[alphabet[i]]*points[i]);
+	    }
+	}
 
 	score += 1;
 	score = score*score;
